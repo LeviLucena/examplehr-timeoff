@@ -1,12 +1,19 @@
 "use client";
 
 import type { TimeOffRequest } from "@/lib/types";
+import styles from "./RequestList.module.css";
 
 interface RequestListProps {
   requests: TimeOffRequest[];
   loading: boolean;
   error: string | null;
 }
+
+const statusBadge: Record<string, string> = {
+  pending: styles.badgePending,
+  approved: styles.badgeApproved,
+  denied: styles.badgeDenied,
+};
 
 export function RequestList({
   requests,
@@ -15,69 +22,49 @@ export function RequestList({
 }: RequestListProps) {
   if (loading && requests.length === 0) {
     return (
-      <div data-testid="requests-loading" style={loadingStyle}>
-        <p>Loading requests...</p>
+      <div data-testid="requests-loading" className={styles.loadingContainer}>
+        Loading requests...
       </div>
     );
   }
 
   if (error && requests.length === 0) {
     return (
-      <div data-testid="requests-error" style={errorContainerStyle}>
-        <p style={{ color: "#ef4444", fontWeight: 600 }}>
-          Failed to load requests
-        </p>
-        <p style={{ color: "#6b7280", fontSize: 14 }}>{error}</p>
+      <div data-testid="requests-error" className={styles.errorContainer}>
+        <div className={styles.errorTitle}>Failed to load requests</div>
+        <div className={styles.errorMessage}>{error}</div>
       </div>
     );
   }
 
   if (!loading && requests.length === 0) {
     return (
-      <div data-testid="requests-empty" style={emptyStyle}>
-        <p>No pending requests.</p>
+      <div data-testid="requests-empty" className={styles.emptyContainer}>
+        No pending requests.
       </div>
     );
   }
 
   return (
-    <div>
+    <div className={styles.wrapper}>
       {loading && (
-        <p style={{ color: "#6b7280", fontSize: 13, marginBottom: 8 }}>
-          Refreshing...
-        </p>
+        <div className={styles.refreshing}>Refreshing...</div>
       )}
-      <div data-testid="request-list" style={listStyle}>
+      <div data-testid="request-list" className={styles.list}>
         {requests.map((req) => (
-          <div key={req.id} style={cardStyle}>
-            <div style={cardHeaderStyle}>
-              <span style={employeeNameStyle}>{req.employeeName}</span>
-              <span
-                style={{
-                  ...badgeStyle,
-                  backgroundColor:
-                    req.status === "approved"
-                      ? "#dcfce7"
-                      : req.status === "denied"
-                        ? "#fef2f2"
-                        : "#fef9c3",
-                  color:
-                    req.status === "approved"
-                      ? "#166534"
-                      : req.status === "denied"
-                        ? "#991b1b"
-                        : "#854d0e",
-                }}
-              >
+          <div key={req.id} className={styles.card}>
+            <div className={styles.cardHeader}>
+              <span className={styles.employeeName}>{req.employeeName}</span>
+              <span className={`${styles.badge} ${statusBadge[req.status] || ""}`}>
                 {req.status}
               </span>
             </div>
-            <div style={cardBodyStyle}>
+            <div className={styles.cardBody}>
               <span>
                 {req.locationName} &middot; {req.daysRequested} day
                 {req.daysRequested > 1 ? "s" : ""}
               </span>
-              <span style={{ fontSize: 12, color: "#9ca3af" }}>
+              <span className={styles.date}>
                 {new Date(req.createdAt).toLocaleDateString()}
               </span>
             </div>
@@ -87,63 +74,3 @@ export function RequestList({
     </div>
   );
 }
-
-const listStyle: React.CSSProperties = {
-  display: "flex",
-  flexDirection: "column",
-  gap: 8,
-};
-
-const cardStyle: React.CSSProperties = {
-  backgroundColor: "#ffffff",
-  border: "1px solid #e5e7eb",
-  borderRadius: 8,
-  padding: 12,
-};
-
-const cardHeaderStyle: React.CSSProperties = {
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  marginBottom: 4,
-};
-
-const employeeNameStyle: React.CSSProperties = {
-  fontWeight: 600,
-  fontSize: 14,
-  color: "#111827",
-};
-
-const cardBodyStyle: React.CSSProperties = {
-  display: "flex",
-  justifyContent: "space-between",
-  fontSize: 13,
-  color: "#6b7280",
-};
-
-const badgeStyle: React.CSSProperties = {
-  fontSize: 11,
-  fontWeight: 600,
-  padding: "2px 8px",
-  borderRadius: 12,
-  textTransform: "capitalize",
-};
-
-const loadingStyle: React.CSSProperties = {
-  padding: 24,
-  textAlign: "center",
-  color: "#6b7280",
-};
-
-const errorContainerStyle: React.CSSProperties = {
-  padding: 24,
-  backgroundColor: "#fef2f2",
-  borderRadius: 8,
-  textAlign: "center",
-};
-
-const emptyStyle: React.CSSProperties = {
-  padding: 24,
-  textAlign: "center",
-  color: "#6b7280",
-};

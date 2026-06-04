@@ -4,37 +4,37 @@ import { useStore } from "@/lib/store";
 import { EmployeeView } from "@/components/EmployeeView";
 import { ManagerView } from "@/components/ManagerView";
 import { Notification } from "@/components/Notification";
+import styles from "@/components/page.module.css";
 
 export default function Home() {
   const { state, switchRole, clearNotification } = useStore();
 
   return (
-    <div style={containerStyle}>
-      <header style={headerStyle}>
-        <div>
-          <h1 style={{ fontSize: 20, fontWeight: 700, margin: 0 }}>
-            ExampleHR
-          </h1>
-          <p style={{ fontSize: 13, color: "#6b7280", margin: 0 }}>
-            Time-Off Management
-          </p>
+    <div className={styles.container}>
+      <header className={styles.header}>
+        <div className={styles.brand}>
+          <div className={styles.logo}>EH</div>
+          <div className={styles.titleGroup}>
+            <h1>ExampleHR</h1>
+            <p>Time-Off Management</p>
+          </div>
         </div>
-        <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-          <span style={{ fontSize: 13, color: "#6b7280" }}>
-            {state.role === "employee" ? "👤 Employee" : "👔 Manager"}
+        <div className={styles.headerRight}>
+          <span className={styles.roleBadge}>
+            {state.role === "employee" ? "Employee" : "Manager"}
           </span>
           <button
             onClick={() =>
               switchRole(state.role === "employee" ? "manager" : "employee")
             }
-            style={switchButtonStyle}
+            className={styles.switchButton}
           >
-            Switch to {state.role === "employee" ? "Manager" : "Employee"} View
+            {state.role === "employee" ? "Manager View" : "Employee View"}
           </button>
         </div>
       </header>
 
-      <main style={mainStyle}>
+      <main className={styles.main}>
         {state.role === "employee" ? <EmployeeView /> : <ManagerView />}
       </main>
 
@@ -48,33 +48,3 @@ export default function Home() {
     </div>
   );
 }
-
-const containerStyle: React.CSSProperties = {
-  minHeight: "100vh",
-};
-
-const headerStyle: React.CSSProperties = {
-  backgroundColor: "#ffffff",
-  borderBottom: "1px solid #e5e7eb",
-  padding: "16px 24px",
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-};
-
-const mainStyle: React.CSSProperties = {
-  maxWidth: 960,
-  margin: "0 auto",
-  padding: "24px",
-};
-
-const switchButtonStyle: React.CSSProperties = {
-  padding: "6px 14px",
-  backgroundColor: "#f3f4f6",
-  border: "1px solid #d1d5db",
-  borderRadius: 6,
-  fontSize: 13,
-  fontWeight: 500,
-  cursor: "pointer",
-  color: "#374151",
-};

@@ -4,16 +4,15 @@ import { useStore } from "@/lib/store";
 import { BalancesTable } from "./BalancesTable";
 import { RequestForm } from "./RequestForm";
 import { RequestList } from "./RequestList";
+import pageStyles from "./page.module.css";
 
 export function EmployeeView() {
   const { state, submitTimeOff } = useStore();
 
   return (
     <div>
-      <section style={{ marginBottom: 32 }}>
-        <h2 style={{ fontSize: 18, fontWeight: 600, marginBottom: 16 }}>
-          Your Balances
-        </h2>
+      <section className={pageStyles.section}>
+        <h2 className={pageStyles.sectionTitle}>Your Balances</h2>
         <BalancesTable
           balances={state.balances}
           loading={state.balancesLoading}
@@ -23,7 +22,7 @@ export function EmployeeView() {
         />
       </section>
 
-      <section style={{ marginBottom: 32 }}>
+      <section className={pageStyles.section}>
         <RequestForm
           balances={state.balances}
           employeeId={state.currentEmployeeId}
@@ -33,10 +32,8 @@ export function EmployeeView() {
         />
       </section>
 
-      <section>
-        <h2 style={{ fontSize: 18, fontWeight: 600, marginBottom: 16 }}>
-          Your Requests
-        </h2>
+      <section className={pageStyles.section}>
+        <h2 className={pageStyles.sectionTitle}>Your Requests</h2>
         <RequestList
           requests={state.pendingRequests.filter(
             (r) => r.employeeId === state.currentEmployeeId

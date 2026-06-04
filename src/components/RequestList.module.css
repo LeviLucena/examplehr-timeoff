@@ -1,0 +1,124 @@
+.wrapper {
+  animation: fadeIn 0.3s ease;
+}
+
+.refreshing {
+  color: var(--color-brand);
+  font-size: 13px;
+  margin-bottom: 12px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  transition: all 0.15s ease;
+  animation: fadeIn 0.3s ease;
+}
+
+.card:hover {
+  border-color: var(--color-brand);
+  box-shadow: var(--shadow-sm);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.employeeName {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--color-text-primary);
+}
+
+.cardBody {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--color-text-secondary);
+}
+
+.date {
+  font-size: 12px;
+  color: var(--color-text-tertiary);
+}
+
+.badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 100px;
+  text-transform: capitalize;
+  letter-spacing: 0.02em;
+}
+
+.badgePending {
+  background: var(--color-pending-bg);
+  color: var(--color-pending-text);
+}
+
+.badgeApproved {
+  background: var(--color-approved-bg);
+  color: var(--color-approved-text);
+}
+
+.badgeDenied {
+  background: var(--color-denied-bg);
+  color: var(--color-denied-text);
+}
+
+.loadingContainer {
+  padding: 24px;
+  text-align: center;
+  color: var(--color-text-tertiary);
+}
+
+.errorContainer {
+  padding: 32px;
+  background: var(--color-error-bg);
+  border: 1px solid #fecaca;
+  border-radius: var(--radius-lg);
+  text-align: center;
+}
+
+.errorTitle {
+  color: var(--color-error-text);
+  font-weight: 600;
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+
+.errorMessage {
+  color: var(--color-text-secondary);
+  font-size: 14px;
+}
+
+.emptyContainer {
+  padding: 32px;
+  text-align: center;
+  color: var(--color-text-tertiary);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}

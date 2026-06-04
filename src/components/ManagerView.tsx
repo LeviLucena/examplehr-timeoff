@@ -2,27 +2,36 @@
 
 import { useStore } from "@/lib/store";
 import { ApprovalCard } from "./ApprovalCard";
+import pageStyles from "./page.module.css";
 
 export function ManagerView() {
   const { state, handleApproveDeny } = useStore();
 
   if (state.requestsLoading && state.pendingRequests.length === 0) {
     return (
-      <div data-testid="manager-loading" style={loadingStyle}>
-        <p>Loading pending requests...</p>
+      <div style={{ padding: 48, textAlign: "center", color: "var(--color-text-tertiary)" }}>
+        Loading pending requests...
       </div>
     );
   }
 
   if (state.requestsError && state.pendingRequests.length === 0) {
     return (
-      <div data-testid="manager-error" style={errorStyle}>
-        <p style={{ color: "#ef4444", fontWeight: 600 }}>
+      <div
+        style={{
+          padding: 32,
+          background: "var(--color-error-bg)",
+          borderRadius: "var(--radius-lg)",
+          textAlign: "center",
+          border: "1px solid #fecaca",
+        }}
+      >
+        <div style={{ fontWeight: 600, color: "var(--color-error-text)", marginBottom: 4 }}>
           Failed to load requests
-        </p>
-        <p style={{ color: "#6b7280", fontSize: 14 }}>
+        </div>
+        <div style={{ fontSize: 14, color: "var(--color-text-secondary)" }}>
           {state.requestsError}
-        </p>
+        </div>
       </div>
     );
   }
@@ -33,10 +42,8 @@ export function ManagerView() {
 
   if (!state.requestsLoading && pending.length === 0) {
     return (
-      <div data-testid="manager-empty" style={emptyStyle}>
-        <h2 style={{ fontSize: 18, fontWeight: 600, marginBottom: 8 }}>
-          Pending Approvals
-        </h2>
+      <div style={{ padding: 48, textAlign: "center", color: "var(--color-text-tertiary)" }}>
+        <h2 className={pageStyles.sectionTitle}>Pending Approvals</h2>
         <p>No pending requests to review.</p>
       </div>
     );
@@ -44,26 +51,25 @@ export function ManagerView() {
 
   return (
     <div>
-      <h2 style={{ fontSize: 18, fontWeight: 600, marginBottom: 16 }}>
+      <h2 className={pageStyles.sectionTitle}>
         Pending Approvals
         {pending.length > 0 && (
-          <span
-            style={{
-              marginLeft: 8,
-              fontSize: 13,
-              color: "#6b7280",
-              fontWeight: 400,
-            }}
-          >
+          <span className={pageStyles.count}>
             ({pending.length} request{pending.length !== 1 ? "s" : ""})
           </span>
         )}
       </h2>
 
       {state.requestsLoading && (
-        <p style={{ color: "#6b7280", fontSize: 13, marginBottom: 8 }}>
+        <div
+          style={{
+            color: "var(--color-brand)",
+            fontSize: 13,
+            marginBottom: 12,
+          }}
+        >
           Refreshing...
-        </p>
+        </div>
       )}
 
       {pending.map((req) => (
@@ -77,20 +83,3 @@ export function ManagerView() {
     </div>
   );
 }
-
-const loadingStyle: React.CSSProperties = {
-  padding: 48,
-  textAlign: "center",
-  color: "#6b7280",
-};
-
-const errorStyle: React.CSSProperties = {
-  padding: 48,
-  textAlign: "center",
-};
-
-const emptyStyle: React.CSSProperties = {
-  padding: 48,
-  textAlign: "center",
-  color: "#6b7280",
-};
