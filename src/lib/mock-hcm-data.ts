@@ -40,7 +40,21 @@ function generateBalances(): TimeOffBalance[] {
 }
 
 const balances: TimeOffBalance[] = generateBalances();
-const requests: TimeOffRequest[] = [
+
+function applySeedRequestToBalance(req: TimeOffRequest) {
+  const idx = balances.findIndex(
+    (b) => b.employeeId === req.employeeId && b.locationId === req.locationId
+  );
+  if (idx !== -1) {
+    balances[idx] = {
+      ...balances[idx],
+      usedDays: balances[idx].usedDays + req.daysRequested,
+      availableDays: balances[idx].totalDays - (balances[idx].usedDays + req.daysRequested),
+    };
+  }
+}
+
+const seedRequests: TimeOffRequest[] = [
   {
     id: "req-1",
     employeeId: "emp-1",
@@ -62,6 +76,12 @@ const requests: TimeOffRequest[] = [
     createdAt: new Date(Date.now() - 172800000).toISOString(),
   },
 ];
+
+for (const req of seedRequests) {
+  applySeedRequestToBalance(req);
+}
+
+const requests: TimeOffRequest[] = [...seedRequests];
 
 let requestCounter = 3;
 

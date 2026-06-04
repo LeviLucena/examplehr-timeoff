@@ -1,0 +1,3 @@
+{
+  "buildCommand": "npm run build-storybook && cp -r storybook-static public/storybook && next build"
+}
