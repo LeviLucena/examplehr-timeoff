@@ -25,6 +25,8 @@ npm run storybook  # http://localhost:6006
 npm test           # unit tests
 ```
 
+**Vercel deploy:** [examplehr-timeoff-tau.vercel.app](https://examplehr-timeoff-tau.vercel.app) · Storybook: [/storybook/](https://examplehr-timeoff-tau.vercel.app/storybook/)
+
 ## Project Structure
 
 ```
