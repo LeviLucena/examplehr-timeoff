@@ -70,6 +70,6 @@ See [docs/TRD.md](./docs/TRD.md) for the full architecture decision record, alte
 
 - [x] TRD
 - [x] Source code
-- [x] Storybook (runnable with `npm run storybook`)
+- [x] Storybook — local: `npm run storybook` · deployed: [/storybook/](https://examplehr-timeoff-tau.vercel.app/storybook/)
 - [x] Unit tests (12 passing)
 - [x] Browser interaction tests
