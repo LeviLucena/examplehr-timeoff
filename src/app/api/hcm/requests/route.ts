@@ -8,7 +8,7 @@ import {
 export async function GET() {
   try {
     const result = await getPendingRequests();
-    return NextResponse.json({ success: true, ...result });
+    return NextResponse.json({ success: true, data: result });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";
     return NextResponse.json(
@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
       locationId,
       daysRequested,
     });
-    return NextResponse.json({ success: true, ...result }, { status: 201 });
+    return NextResponse.json({ success: true, data: result }, { status: 201 });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";
     let parsed;
@@ -90,7 +90,7 @@ export async function PUT(request: NextRequest) {
     }
 
     const result = await approveDenyRequest(requestId, action, reviewerId);
-    return NextResponse.json({ success: true, ...result });
+    return NextResponse.json({ success: true, data: result });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";
     let parsed;

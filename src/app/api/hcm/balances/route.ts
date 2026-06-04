@@ -8,10 +8,10 @@ export async function GET(request: NextRequest) {
   try {
     if (employeeId) {
       const result = await getEmployeeBalances(employeeId);
-      return NextResponse.json({ success: true, ...result });
+      return NextResponse.json({ success: true, data: result });
     }
     const result = await getAllBalances();
-    return NextResponse.json({ success: true, ...result });
+    return NextResponse.json({ success: true, data: result });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";
     return NextResponse.json(
