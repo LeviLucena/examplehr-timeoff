@@ -24,7 +24,7 @@ async function main() {
     const filePath = join(dest, file);
     if (!existsSync(filePath)) continue;
     let html = await readFile(filePath, "utf-8");
-    html = html.replace(/(src|href)="\//g, '$1="./');
+    html = html.replace(/(src|href)="\//g, '$1="/storybook/');
     await writeFile(filePath, html, "utf-8");
     console.log(`Fixed absolute paths in ${file} -> relative paths`);
   }
