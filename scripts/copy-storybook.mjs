@@ -18,19 +18,16 @@ async function main() {
   await cp(src, dest, { recursive: true });
   console.log(`Copied ${src} -> ${dest}`);
 
-  // Fix paths in index.html so Storybook works from /storybook/ subdirectory
-  const indexPath = join(dest, "index.html");
-  let html = await readFile(indexPath, "utf-8");
-
   // Storybook generates absolute paths like /sb-addons/..., /sb-manager/..., /assets/...
-  // Rewrite them relative to /storybook/ subdirectory
-  html = html.replace(
-    /(src|href)=["']\//g,
-    '$1="/storybook/'
-  );
-
-  await writeFile(indexPath, html, "utf-8");
-  console.log("Fixed paths in index.html for /storybook/ subdirectory");
+  // Rewrite them to relative paths so they work from /storybook/ subdirectory
+  for (const file of ["index.html", "iframe.html"]) {
+    const filePath = join(dest, file);
+    if (!existsSync(filePath)) continue;
+    let html = await readFile(filePath, "utf-8");
+    html = html.replace(/(src|href)="\//g, '$1="./');
+    await writeFile(filePath, html, "utf-8");
+    console.log(`Fixed absolute paths in ${file} -> relative paths`);
+  }
 }
 
 main();
